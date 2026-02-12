@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
         response.setUpdatedAt(user.getUpdatedAt());
         return response;
     }
+
+    @Override
+    public Boolean exitsByUserId(String userId) {
+        return userRepository.existsById(userId);
+    }
 }

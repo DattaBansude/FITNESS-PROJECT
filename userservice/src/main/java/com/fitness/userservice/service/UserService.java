@@ -10,4 +10,6 @@ public interface UserService {
     UserResponse register(@Valid UserRequest userRequest);
 
     UserResponse getUserProfile(String userId);
+
+    Boolean exitsByUserId(String userId);
 }

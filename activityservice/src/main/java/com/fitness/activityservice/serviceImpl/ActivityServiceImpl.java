@@ -5,6 +5,7 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.entity.Activity;
 import com.fitness.activityservice.repository.ActivityRepository;
 import com.fitness.activityservice.service.ActivityService;
+import com.fitness.activityservice.service.UserValidationService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,13 +23,15 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    @PostConstruct
-    public void checkDB() {
-        System.out.println("DB NAME: " + mongoTemplate.getDb().getName());
-    }
+    @Autowired
+    private UserValidationService validationService;
 
     @Override
     public ActivityResponse trackActivity(ActivityRequest request) {
+        boolean isValidUser = validationService.validateUser(request.getUserId());
+        if (!isValidUser) {
+            throw new RuntimeException("Invalid User " + request.getUserId());
+        }
         Activity activity = Activity.builder()
                 .userId(request.getUserId())
                 .type(request.getType())
