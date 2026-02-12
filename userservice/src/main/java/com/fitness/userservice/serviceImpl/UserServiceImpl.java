@@ -5,10 +5,12 @@ import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.entity.User;
 import com.fitness.userservice.repository.UserRepository;
 import com.fitness.userservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -57,6 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean exitsByUserId(String userId) {
+        log.info("Calling User validation  API for userId: {}" , userId);
         return userRepository.existsById(userId);
     }
 }
